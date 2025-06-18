@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Workflow pour la validation automatique des commandes fournisseurs -->
+    <record id="act_server_validate_commande" model="ir.actions.server">
+        <field name="name">Validation Automatique Commande Fournisseur</field>
+        <field name="model_id" ref="model_gestion_comptable_sfec_bon_commande_fournisseur"/>
+        <field name="state">code</field>
+        <field name="code">
+            #python: 
+            partenariat = env['gestion_comptable_sfec.partenariat_exclusif'].search([
+                ('fournisseur_id', '=', record.fournisseur_id.id),
+                ('active', '=', True)
+            ])
+            if partenariat:
+                record.write({'state': 'validate'})
+                env['mail.thread'].message_post(
+                    body=f'Commande {record.name} automatiquement validée pour le partenaire exclusif {record.fournisseur_id.name}',
+                    subject='Validation Commande Partenaire Exclusif',
+                    subtype_xmlid='mail.mt_comment'
+                )
+        </field>
+    </record>
+
+    <!-- Workflow pour la génération d'accusé de réception -->
+    <record id="act_server_generate_accuse" model="ir.actions.server">
+        <field name="name">Génération Accusé Réception</field>
+        <field name="model_id" ref="model_gestion_comptable_sfec_bon_commande_client"/>
+        <field name="state">code</field>
+        <field name="code">
+            #python: 
+            record.write({'state': 'accuse'})
+            env['mail.thread'].message_post(
+                body=f'Accusé de réception généré pour la commande {record.name}',
+                subject='Génération Accusé Réception',
+                subtype_xmlid='mail.mt_comment'
+            )
+        </field>
+    </record>
+
+    <!-- Workflow pour la mise à jour automatique du stock -->
+    <record id="act_server_update_stock" model="ir.actions.server">
+        <field name="name">Mise à jour Stock</field>
+        <field name="model_id" ref="model_gestion_comptable_sfec_stock_mouvement"/>
+        <field name="state">code</field>
+        <field name="code">
+            #python: 
+            for ligne in record.ligne_ids:
+                produit = ligne.produit_id
+                produit.sudo().write({
+                    'qty_available': produit.qty_available + ligne.quantite
+                })
+            env['mail.thread'].message_post(
+                body=f'Mise à jour du stock pour le mouvement {record.name}',
+                subject='Mise à jour Stock',
+                subtype_xmlid='mail.mt_comment'
+            )
+        </field>
+    </record>
+
+    <!-- Workflow pour les relances clients -->
+    <record id="act_server_relance_client" model="ir.actions.server">
+        <field name="name">Relance Client</field>
+        <field name="model_id" ref="model_gestion_comptable_sfec_facture_finale"/>
+        <field name="state">code</field>
+        <field name="code">
+            #python: 
+            if record.etat == 'brouillon' and record.date_echeance < fields.Date.today():
+                template = env.ref('gestion_comptable_sfec.email_template_relance_client')
+                template.send_mail(record.id)
+                env['mail.thread'].message_post(
+                    body=f'Relance envoyée pour la facture {record.name}',
+                    subject='Relance Client',
+                    subtype_xmlid='mail.mt_comment'
+                )
+        </field>
+    </record>
+</odoo>
