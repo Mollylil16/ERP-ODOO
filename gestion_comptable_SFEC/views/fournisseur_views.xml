@@ -14,10 +14,10 @@
                     </div>
                     <group>
                         <field name="name" class="neumorphic-input"/>
-                        <field name="entreprise" class="neumorphic-input"/>
+                        <field name="entreprise" widget="custom_tags" class="neumorphic-input"/>
                         <field name="email" class="neumorphic-input"/>
                         <field name="phone" class="neumorphic-input"/>
-                        <field name="address" class="neumorphic-input"/>
+                        <field name="address" widget="custom_tags" class="neumorphic-input"/>
                     </group>
                     <group string="Statistiques de paiement">
                         <field name="total_paiements" readonly="1" class="neumorphic-input"/>

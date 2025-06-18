@@ -35,7 +35,7 @@
                         <field name="date_debut"/>
                         <field name="date_fin"/>
                         <field name="active"/>
-                        <field name="conditions"/>
+                        <field name="conditions" widget="custom_tags"/>
                     </group>
                 </sheet>
                 

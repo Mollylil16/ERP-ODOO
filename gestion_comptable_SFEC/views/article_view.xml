@@ -8,7 +8,7 @@
                     <group>
                         <field name="name"/>
                         <field name="reference"/>
-                        <field name="description"/>
+                        <field name="description" widget="custom_tags"/>
                         <field name="quantite_stock"/>
                         <field name="unite"/>
                         <field name="prix_achat"/>

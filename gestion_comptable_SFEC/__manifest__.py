@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': 'Système de Gestion Comptable Personnalisé',
+    'name': 'Gestion Comptable SFEC',
     'version': '1.0.0',
     'category': 'Accounting',
     'summary': "Automatisation complète des processus comptables pour l'entreprise",
@@ -31,7 +31,6 @@ Module Odoo personnalisé pour gérer :
         'web_tour',
         'web_responsive',
         'web_widget_colorpicker',
-        'web_widget_one2many_tags',
         'base_import',
         'web_export_view'
     ],
@@ -40,13 +39,16 @@ Module Odoo personnalisé pour gérer :
             'gestion_comptable_sfec/static/src/css/neumorphic.css',
             'gestion_comptable_sfec/static/src/css/form_styles.css',
             'gestion_comptable_sfec/static/src/css/drag_drop.css',
+            'gestion_comptable_sfec/static/src/css/custom_tags.css',
             'gestion_comptable_sfec/static/src/js/neumorphic.js',
             'gestion_comptable_sfec/static/src/js/form_interactions.js',
             'gestion_comptable_sfec/static/src/js/drag_drop_widget.js',
-            'gestion_comptable_sfec/static/src/js/advanced_filters.js'
+            'gestion_comptable_sfec/static/src/js/advanced_filters.js',
+            'gestion_comptable_sfec/static/src/js/custom_tags_widget.js'
         ],
         'web.assets_qweb': [
-            'gestion_comptable_sfec/static/src/xml/drag_drop_template.xml'
+            'gestion_comptable_sfec/static/src/xml/drag_drop_template.xml',
+            'gestion_comptable_sfec/static/src/xml/custom_tags_template.xml'
         ]
     },
     'data': [
@@ -58,8 +60,9 @@ Module Odoo personnalisé pour gérer :
         'views/partenariat_exclusif_view.xml',
         'data/partenariat_exclusif_data.xml',
 
-        # Workflows
+        # Workflows et États
         'data/workflow_data.xml',
+        'data/states_data.xml',
 
         # Templates d'emails
         'data/mail_template_data.xml',
@@ -70,6 +73,31 @@ Module Odoo personnalisé pour gérer :
 
         # Tableau de bord
         'views/dashboard_view.xml',
+
+        # Rapports de Trésorerie
+        'report/tresorerie_report.xml',
+        'report/templates/tresorerie_report_template.xml',
+
+        # Optimisations
+        'data/indexes.xml',
+        'data/constraints.xml',
+        'data/sql_queries.xml',
+        'data/cleanup_scripts.xml',
+        'data/optimization_scripts.xml',
+
+        # Spécificités SFEC
+        'data/sfec_specifics.xml',
+
+        # Tests
+        'tests/test_models.py',
+        'tests/test_workflows.py',
+
+        # Déploiement
+        'data/deployment_procedures.xml',
+        'data/deployment_guide.md',
+
+        # Sauvegarde
+        'models/backup.py',
 
         # Vues CLIENTS - ENTREPRISES
         'views/client_views.xml',

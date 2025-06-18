@@ -1,7 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Workflow pour la validation automatique des commandes fournisseurs -->
+    <!-- Workflow pour les commandes -->
     <record id="act_server_validate_commande" model="ir.actions.server">
+        <field name="name">Validation Commande</field>
+        <field name="model_id" ref="model_custom_accounting_bon_commande_client"/>
+        <field name="state">code</field>
+        <field name="code">
+            #python: 
+            record.write({'state': 'confirmed'})
+            env['mail.thread'].message_post(
+                body=f'Commande {record.name} confirmée et envoyée à la validation',
+                subject='Commande Confirmée',
+                subtype_xmlid='mail.mt_comment'
+            )
+        </field>
+    </record>
+
+    <record id="act_server_approve_commande" model="ir.actions.server">
+        <field name="name">Approuver Commande</field>
+        <field name="model_id" ref="model_custom_accounting_bon_commande_client"/>
+        <field name="state">code</field>
+        <field name="code">
+            #python: 
+            record.write({'state': 'approved'})
+            env['mail.thread'].message_post(
+                body=f'Commande {record.name} approuvée',
+                subject='Commande Approuvée',
+                subtype_xmlid='mail.mt_comment'
+            )
+        </field>
+    </record>
+
+    <!-- Workflow pour les factures -->
+    <record id="act_server_validate_facture" model="ir.actions.server">
+        <field name="name">Validation Facture</field>
+        <field name="model_id" ref="model_custom_accounting_facture_finale"/>
+        <field name="state">code</field>
+        <field name="code">
+            #python: 
+            record.write({'state': 'confirmed'})
+            env['mail.thread'].message_post(
+                body=f'Facture {record.name} confirmée et envoyée à la validation',
+                subject='Facture Confirmée',
+                subtype_xmlid='mail.mt_comment'
+            )
+        </field>
+    </record>
+
+    <record id="act_server_approve_facture" model="ir.actions.server">
+        <field name="name">Approuver Facture</field>
+        <field name="model_id" ref="model_custom_accounting_facture_finale"/>
+        <field name="state">code</field>
+        <field name="code">
+            #python: 
+            record.write({'state': 'approved'})
+            env['mail.thread'].message_post(
+                body=f'Facture {record.name} approuvée',
+                subject='Facture Approuvée',
+                subtype_xmlid='mail.mt_comment'
+            )
+        </field>
+    </record>
+
+    <!-- Workflow pour les paiements -->
+    <record id="act_server_validate_paiement" model="ir.actions.server">
+        <field name="name">Validation Paiement</field>
+        <field name="model_id" ref="model_custom_accounting_paiement_client"/>
+        <field name="state">code</field>
+        <field name="code">
+            #python: 
+            record.write({'state': 'confirmed'})
+            env['mail.thread'].message_post(
+                body=f'Paiement {record.name} confirmé et envoyé à la validation',
+                subject='Paiement Confirmé',
+                subtype_xmlid='mail.mt_comment'
+            )
+        </field>
+    </record>
+
+    <record id="act_server_approve_paiement" model="ir.actions.server">
+        <field name="name">Approuver Paiement</field>
+        <field name="model_id" ref="model_custom_accounting_paiement_client"/>
+        <field name="state">code</field>
+        <field name="code">
+            #python: 
+            record.write({'state': 'approved'})
+            env['mail.thread'].message_post(
+                body=f'Paiement {record.name} approuvé',
+                subject='Paiement Approuvé',
+                subtype_xmlid='mail.mt_comment'
+            )
+        </field>
+    </record>
+
+    <!-- Workflow pour la validation automatique des commandes fournisseurs -->
+    <record id="act_server_validate_commande_fournisseur" model="ir.actions.server">
         <field name="name">Validation Automatique Commande Fournisseur</field>
         <field name="model_id" ref="model_gestion_comptable_sfec_bon_commande_fournisseur"/>
         <field name="state">code</field>

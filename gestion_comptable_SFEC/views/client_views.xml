@@ -10,8 +10,8 @@
                     </div>
                     <group>
                         <field name="name" class="neumorphic-input"/>
-                        <field name="entreprise_id" class="neumorphic-input"/>
-                        <field name="address" class="neumorphic-input"/>
+                        <field name="entreprise_id" widget="custom_tags" class="neumorphic-input"/>
+                        <field name="address" widget="custom_tags" class="neumorphic-input"/>
                         <field name="lcc_number" class="neumorphic-input"/>
                         <field name="phone" class="neumorphic-input"/>
                         <field name="email" class="neumorphic-input"/>
