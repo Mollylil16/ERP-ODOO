@@ -16,7 +16,7 @@
                                         <h3>Commandes en cours</h3>
                                     </div>
                                     <div class="o_kanban_record_value">
-                                        <field name="nb_commandes_en_cours"/>
+                                        <field name="nb_commandes_en_cours" widget="statinfo"/>
                                     </div>
                                 </div>
                             </div>
@@ -30,7 +30,7 @@
                                         <h3>Stock critique</h3>
                                     </div>
                                     <div class="o_kanban_record_value">
-                                        <field name="nb_articles_stock_critique"/>
+                                        <field name="nb_articles_stock_critique" widget="statinfo"/>
                                     </div>
                                 </div>
                             </div>
@@ -44,7 +44,7 @@
                                         <h3>Factures impayées</h3>
                                     </div>
                                     <div class="o_kanban_record_value">
-                                        <field name="montant_factures_impayees"/>
+                                        <field name="montant_factures_impayees" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                                     </div>
                                 </div>
                             </div>
@@ -55,10 +55,10 @@
                             <div class="o_kanban_record_content">
                                 <div class="o_kanban_record_content_inner">
                                     <div class="o_kanban_record_title">
-                                        <h3>Partenaires actifs</h3>
+                                        <h3>Partenaires exclusifs</h3>
                                     </div>
                                     <div class="o_kanban_record_value">
-                                        <field name="nb_partenaires_actifs"/>
+                                        <field name="nb_partenaires_exclusifs" widget="statinfo"/>
                                     </div>
                                 </div>
                             </div>
@@ -70,18 +70,45 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="o_graph">
-                            <graph string="Evolution des ventes" type="bar">
-                                <field name="date_facture" type="date" interval="month"/>
-                                <field name="montant_total" operator="sum"/>
-                            </graph>
+                            <div class="o_graph_title">
+                                <h3>Évolution des ventes</h3>
+                            </div>
+                            <div class="o_graph_content">
+                                <graph string="Ventes par mois" type="bar" stacked="False">
+                                    <field name="date_commande" type="date" interval="month"/>
+                                    <field name="montant_total" operator="sum"/>
+                                </graph>
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="o_graph">
-                            <graph string="Répartition par fournisseur" type="pie">
-                                <field name="fournisseur_id"/>
-                                <field name="montant_total" operator="sum"/>
-                            </graph>
+                            <div class="o_graph_title">
+                                <h3>Top fournisseurs</h3>
+                            </div>
+                            <div class="o_graph_content">
+                                <graph string="Achats par fournisseur" type="pie">
+                                    <field name="fournisseur_id"/>
+                                    <field name="montant_total" operator="sum"/>
+                                </graph>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Actions rapides -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="o_dashboard_actions">
+                            <button class="btn btn-primary" type="action" name="action_nouvelle_commande">
+                                <i class="fa fa-plus"/> Nouvelle commande
+                            </button>
+                            <button class="btn btn-success" type="action" name="action_nouveau_paiement">
+                                <i class="fa fa-money"/> Nouveau paiement
+                            </button>
+                            <button class="btn btn-warning" type="action" name="action_relance_clients">
+                                <i class="fa fa-bell"/> Relancer clients
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -90,24 +117,22 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="o_list_view neumorphic">
-        <div class="list-header">
-            <h3>Alertes</h3>
-            <div class="list-filters">
-                <button class="neumorphic-btn" t-on-click="widget.filter('all')">Toutes</button>
-                <button class="neumorphic-btn" t-on-click="widget.filter('critical')">Critiques</button>
-                <button class="neumorphic-btn" t-on-click="widget.filter('warning')">Avertissements</button>
-            </div>
-        </div>
-        <div class="list-content">
-            <tree>
-                <field name="date_alerte"/>
-                <field name="type_alerte"/>
-                <field name="description"/>
-                <field name="statut"/>
-            </tree>
-        </div>
-    </div>
-                            <tree>
+                            <div class="list-header">
+                                <h3>Alertes</h3>
+                                <div class="list-filters">
+                                    <button class="neumorphic-btn" t-on-click="widget.filter('all')">Toutes</button>
+                                    <button class="neumorphic-btn" t-on-click="widget.filter('critical')">Critiques</button>
+                                    <button class="neumorphic-btn" t-on-click="widget.filter('warning')">Avertissements</button>
+                                </div>
+                            </div>
+                            <div class="list-content">
+                                <tree>
+                                    <field name="date_alerte"/>
+                                    <field name="type_alerte"/>
+                                    <field name="description"/>
+                                    <field name="statut"/>
+                                </tree>
+                            </div>
                                 <field name="date_alerte"/>
                                 <field name="type_alerte"/>
                                 <field name="description"/>

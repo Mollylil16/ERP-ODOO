@@ -6,13 +6,18 @@
             <field name="category_id" ref="base.module_category_accounting"/>
         </record>
 
+        <record id="group_comptable" model="res.groups">
+            <field name="name">Comptable</field>
+            <field name="category_id" ref="base.module_category_accounting"/>
+        </record>
+
         <record id="group_superviseur" model="res.groups">
             <field name="name">Superviseur</field>
             <field name="category_id" ref="base.module_category_accounting"/>
             <field name="implied_ids" eval="[(4, ref('group_comptable'))]"/>
         </record>
 
-        <record id="group_manager" model="res.groups">
+        <record id="group_directeur" model="res.groups">
             <field name="name">Directeur</field>
             <field name="category_id" ref="base.module_category_accounting"/>
             <field name="implied_ids" eval="[(4, ref('group_superviseur'))]"/>
@@ -28,6 +33,14 @@
         <record id="group_approve_facture" model="res.groups">
             <field name="name">Approuver Factures</field>
             <field name="category_id" ref="base.module_category_accounting"/>
+            <field name="implied_ids" eval="[(4, ref('group_superviseur'))]"/>
+        </record>
+
+        <record id="group_validate_final" model="res.groups">
+            <field name="name">Validation Finale</field>
+            <field name="category_id" ref="base.module_category_accounting"/>
+            <field name="implied_ids" eval="[(4, ref('group_directeur'))]"/>
+        </record>
             <field name="implied_ids" eval="[(4, ref('group_superviseur'))]"/>
         </record>
 

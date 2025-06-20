@@ -15,6 +15,8 @@
                         <field name="lcc_number" class="neumorphic-input"/>
                         <field name="phone" class="neumorphic-input"/>
                         <field name="email" class="neumorphic-input"/>
+                        <field name="parent_id" class="neumorphic-input"/>
+                        <field name="street" class="neumorphic-input"/>
                     </group>
                     <group string="Statistiques de paiement">
                         <field name="total_paiements" readonly="1" class="neumorphic-input"/>
@@ -43,6 +45,9 @@
                 <field name="phone"/>
                 <field name="total_paiements"/>
                 <field name="nombre_paiements"/>
+                <field name="lcc_number"/>
+                <field name="parent_id"/>
+                <field name="street"/>
             </tree>
         </field>
     </record>

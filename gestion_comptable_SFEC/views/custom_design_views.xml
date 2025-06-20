@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Définition du widget de couleur -->
+    <data>
+        <template id="color_picker_widget_template">
+            <div class="o_custom_color_picker">
+                <input type="color" t-att-name="name" t-att-value="value" t-att-id="id"/>
+                <div class="o_color_preview" t-att-style="'background-color: ' + value"/>
+            </div>
+        </template>
+    </data>
+
+    <!-- Définition du widget de tags personnalisés -->
+    <data>
+        <template id="custom_tags_widget_template">
+            <div class="o_custom_tags">
+                <t t-foreach="tags" t-as="tag">
+                    <span class="o_tag" t-att-style="'background-color: ' + tag.color">
+                        <t t-esc="tag.name"/>
+                        <button class="o_tag_remove" t-on-click="removeTag(tag)">
+                            <i class="fa fa-times"/>
+                        </button>
+                    </span>
+                </t>
+                <input type="text" class="o_tag_input" t-att-placeholder="placeholder" t-on-keyup="addTag"/>
+            </div>
+        </template>
+    </data>
+
+    <!-- Définition des assets -->
+    <data>
+        <template id="assets_backend" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <link rel="stylesheet" href="/custom_design/static/src/css/custom_design.css"/>
+                <script type="text/javascript" src="/custom_design/static/src/js/color_picker_widget.js"/>
+                <script type="text/javascript" src="/custom_design/static/src/js/custom_tags_widget.js"/>
+            </xpath>
+        </template>
+    </data>
+
+    <!-- Définition des templates pour les widgets -->
+    <data>
+        <template id="assets_qweb" inherit_id="web.assets_qweb">
+            <xpath expr="." position="inside">
+                <t t-call="custom_design.color_picker_widget_template"/>
+                <t t-call="custom_design.custom_tags_widget_template"/>
+            </xpath>
+        </template>
+    </data>
+</odoo>

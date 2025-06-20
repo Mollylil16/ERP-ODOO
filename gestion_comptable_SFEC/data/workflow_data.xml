@@ -1,14 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Workflow pour les commandes -->
-    <record id="act_server_validate_commande" model="ir.actions.server">
+    <!-- Automatisation pour les commandes -->
+    <record id="automation_validate_commande" model="base.automation">
         <field name="name">Validation Commande</field>
+        <field name="model_id" ref="model_custom_accounting_bon_commande_client"/>
+        <field name="trigger">on_write</field>
+        <field name="filter_pre_domain">[('state', '=', 'draft')]</field>
+        <field name="filter_post_domain">[('state', '=', 'confirmed')]</field>
+        <field name="action_server_id" ref="action_validate_commande"/>
+    </record>
+
+    <record id="action_validate_commande" model="ir.actions.server">
+        <field name="name">Action Validation Commande</field>
         <field name="model_id" ref="model_custom_accounting_bon_commande_client"/>
         <field name="state">code</field>
         <field name="code">
             #python: 
             record.write({'state': 'confirmed'})
-            env['mail.thread'].message_post(
+            record.message_post(
                 body=f'Commande {record.name} confirmée et envoyée à la validation',
                 subject='Commande Confirmée',
                 subtype_xmlid='mail.mt_comment'
@@ -16,14 +25,23 @@
         </field>
     </record>
 
-    <record id="act_server_approve_commande" model="ir.actions.server">
+    <record id="automation_approve_commande" model="base.automation">
         <field name="name">Approuver Commande</field>
+        <field name="model_id" ref="model_custom_accounting_bon_commande_client"/>
+        <field name="trigger">on_write</field>
+        <field name="filter_pre_domain">[('state', '=', 'confirmed')]</field>
+        <field name="filter_post_domain">[('state', '=', 'approved')]</field>
+        <field name="action_server_id" ref="action_approve_commande"/>
+    </record>
+
+    <record id="action_approve_commande" model="ir.actions.server">
+        <field name="name">Action Approuver Commande</field>
         <field name="model_id" ref="model_custom_accounting_bon_commande_client"/>
         <field name="state">code</field>
         <field name="code">
             #python: 
             record.write({'state': 'approved'})
-            env['mail.thread'].message_post(
+            record.message_post(
                 body=f'Commande {record.name} approuvée',
                 subject='Commande Approuvée',
                 subtype_xmlid='mail.mt_comment'
@@ -31,15 +49,24 @@
         </field>
     </record>
 
-    <!-- Workflow pour les factures -->
-    <record id="act_server_validate_facture" model="ir.actions.server">
+    <!-- Automatisation pour les factures -->
+    <record id="automation_validate_facture" model="base.automation">
         <field name="name">Validation Facture</field>
+        <field name="model_id" ref="model_custom_accounting_facture_finale"/>
+        <field name="trigger">on_write</field>
+        <field name="filter_pre_domain">[('state', '=', 'draft')]</field>
+        <field name="filter_post_domain">[('state', '=', 'confirmed')]</field>
+        <field name="action_server_id" ref="action_validate_facture"/>
+    </record>
+
+    <record id="action_validate_facture" model="ir.actions.server">
+        <field name="name">Action Validation Facture</field>
         <field name="model_id" ref="model_custom_accounting_facture_finale"/>
         <field name="state">code</field>
         <field name="code">
             #python: 
             record.write({'state': 'confirmed'})
-            env['mail.thread'].message_post(
+            record.message_post(
                 body=f'Facture {record.name} confirmée et envoyée à la validation',
                 subject='Facture Confirmée',
                 subtype_xmlid='mail.mt_comment'
@@ -47,14 +74,23 @@
         </field>
     </record>
 
-    <record id="act_server_approve_facture" model="ir.actions.server">
+    <record id="automation_approve_facture" model="base.automation">
         <field name="name">Approuver Facture</field>
+        <field name="model_id" ref="model_custom_accounting_facture_finale"/>
+        <field name="trigger">on_write</field>
+        <field name="filter_pre_domain">[('state', '=', 'confirmed')]</field>
+        <field name="filter_post_domain">[('state', '=', 'approved')]</field>
+        <field name="action_server_id" ref="action_approve_facture"/>
+    </record>
+
+    <record id="action_approve_facture" model="ir.actions.server">
+        <field name="name">Action Approuver Facture</field>
         <field name="model_id" ref="model_custom_accounting_facture_finale"/>
         <field name="state">code</field>
         <field name="code">
             #python: 
             record.write({'state': 'approved'})
-            env['mail.thread'].message_post(
+            record.message_post(
                 body=f'Facture {record.name} approuvée',
                 subject='Facture Approuvée',
                 subtype_xmlid='mail.mt_comment'
@@ -93,20 +129,29 @@
         </field>
     </record>
 
-    <!-- Workflow pour la validation automatique des commandes fournisseurs -->
-    <record id="act_server_validate_commande_fournisseur" model="ir.actions.server">
-        <field name="name">Validation Automatique Commande Fournisseur</field>
-        <field name="model_id" ref="model_gestion_comptable_sfec_bon_commande_fournisseur"/>
+    <!-- Automatisation pour la validation des partenaires exclusifs -->
+    <record id="automation_validate_partenaire" model="base.automation">
+        <field name="name">Validation Partenaire</field>
+        <field name="model_id" ref="model_custom_accounting_bon_commande_client"/>
+        <field name="trigger">on_create_or_write</field>
+        <field name="filter_pre_domain">[('fournisseur_id', '!=', False), ('state', '=', 'draft')]</field>
+        <field name="filter_post_domain">[('state', '=', 'validate')]</field>
+        <field name="action_server_id" ref="action_validate_partenaire"/>
+    </record>
+
+    <record id="action_validate_partenaire" model="ir.actions.server">
+        <field name="name">Action Validation Partenaire</field>
+        <field name="model_id" ref="model_custom_accounting_bon_commande_client"/>
         <field name="state">code</field>
         <field name="code">
             #python: 
-            partenariat = env['gestion_comptable_sfec.partenariat_exclusif'].search([
+            partenariat = env['custom_accounting.partenariat_exclusif'].search([
                 ('fournisseur_id', '=', record.fournisseur_id.id),
-                ('active', '=', True)
+                ('state', '=', 'active')
             ])
             if partenariat:
                 record.write({'state': 'validate'})
-                env['mail.thread'].message_post(
+                record.message_post(
                     body=f'Commande {record.name} automatiquement validée pour le partenaire exclusif {record.fournisseur_id.name}',
                     subject='Validation Commande Partenaire Exclusif',
                     subtype_xmlid='mail.mt_comment'
@@ -114,17 +159,26 @@
         </field>
     </record>
 
-    <!-- Workflow pour la génération d'accusé de réception -->
-    <record id="act_server_generate_accuse" model="ir.actions.server">
+    <!-- Automatisation pour la génération d'accusé de réception -->
+    <record id="automation_generate_accuse" model="base.automation">
         <field name="name">Génération Accusé Réception</field>
+        <field name="model_id" ref="model_gestion_comptable_sfec_bon_commande_client"/>
+        <field name="trigger">on_write</field>
+        <field name="filter_pre_domain">[('state', '=', 'confirmed')]</field>
+        <field name="filter_post_domain">[('state', '=', 'accuse')]</field>
+        <field name="action_server_id" ref="action_generate_accuse"/>
+    </record>
+
+    <record id="action_generate_accuse" model="ir.actions.server">
+        <field name="name">Action Génération Accusé Réception</field>
         <field name="model_id" ref="model_gestion_comptable_sfec_bon_commande_client"/>
         <field name="state">code</field>
         <field name="code">
             #python: 
             record.write({'state': 'accuse'})
-            env['mail.thread'].message_post(
+            record.message_post(
                 body=f'Accusé de réception généré pour la commande {record.name}',
-                subject='Génération Accusé Réception',
+                subject='Accusé de Réception',
                 subtype_xmlid='mail.mt_comment'
             )
         </field>

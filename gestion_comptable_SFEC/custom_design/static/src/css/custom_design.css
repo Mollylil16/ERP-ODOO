@@ -1,0 +1,157 @@
+/* Responsive design utilities */
+/* Variables CSS globales */
+:root {
+    --o-custom-color-picker-height: 36px;
+    --o-custom-color-picker-padding: 0;
+    --o-custom-responsive-padding: 10px;
+    --o-border-radius: 4px;
+    --o-border-color: #ddd;
+    --o-background-color: #fff;
+    --o-primary-color: #007AFF;
+    --o-primary-font-color: white;
+    --o-focus-border-color: #007AFF;
+    --o-primary-font-color-hover: #ccc;
+}
+
+/* Classes de base */
+.o_custom_responsive_table {
+    display: block;
+    overflow-x: auto;
+    width: 100%;
+    margin: 0;
+}
+
+.o_custom_responsive_form {
+    padding: var(--o-custom-responsive-padding);
+    width: 100%;
+}
+
+/* Sélecteur de couleur personnalisé */
+.o_custom_color_picker {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    margin-bottom: 8px;
+}
+
+.o_custom_color_picker input[type="color"] {
+    width: 100%;
+    height: var(--o-custom-color-picker-height);
+    padding: var(--o-custom-color-picker-padding);
+    border: 1px solid var(--o-border-color);
+    border-radius: var(--o-border-radius);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.o_custom_color_picker input[type="color"]:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--o-focus-border-color);
+}
+
+/* Styles pour les widgets de tags */
+.o_custom_tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 8px;
+    border: 1px solid var(--o-border-color);
+    border-radius: var(--o-border-radius);
+    background: var(--o-background-color);
+}
+
+.o_tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 8px;
+    border-radius: 16px;
+    background: var(--o-primary-color);
+    color: var(--o-primary-font-color);
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.o_tag:hover {
+    opacity: 0.8;
+}
+
+.o_tag_remove {
+    margin-left: 4px;
+    padding: 2px 4px;
+    border: none;
+    background: none;
+    color: var(--o-primary-font-color);
+    cursor: pointer;
+}
+
+.o_tag_remove:hover {
+    color: var(--o-primary-font-color-hover);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .o_custom_responsive_table {
+        display: block;
+        overflow-x: auto;
+    }
+    
+    .o_custom_responsive_form {
+        padding: var(--o-custom-responsive-padding);
+    }
+}
+
+/* Export view styles */
+.o_custom_export_view {
+    margin: 20px 0;
+}
+
+.o_custom_export_view button {
+    margin-right: 5px;
+}
+
+/* Styles communs */
+.o_custom_color_picker input[type="color"],
+.o_custom_tags {
+    border: 1px solid var(--o-border-color);
+    border-radius: var(--o-border-radius);
+    cursor: pointer;
+}
+
+/* Optimisations pour Odoo */
+@layer odoo {
+    .o_custom_color_picker {
+        --o-border-radius: 4px;
+        --o-border-color: #ddd;
+        --o-background-color: #fff;
+        --o-font-color: #2B3A4A;
+        --o-hover-color: #f5f5f5;
+        --o-primary-color: #007AFF;
+        --o-primary-font-color: white;
+    }
+
+    .o_custom_tags {
+        --o-border-radius: 4px;
+        --o-border-color: #ddd;
+        --o-background-color: #fff;
+    }
+
+    .o_tag {
+        --o-tag-color: #007AFF;
+        --o-tag-font-color: white;
+    }
+}
+
+/* General styling */
+.o_custom_design_container {
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+    margin-bottom: 15px;
+}
+
+.o_custom_design_header {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+    color: #212529;
+}

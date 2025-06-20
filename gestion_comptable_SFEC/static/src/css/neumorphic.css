@@ -12,48 +12,69 @@
     --success-color: #4CAF50;
     --warning-color: #FFC107;
     --error-color: #F44336;
+    --neumorphic-shadow: 8px 8px 16px var(--shadow-dark), -8px -8px 16px var(--shadow-light);
+    --neumorphic-hover-shadow: 10px 10px 20px var(--shadow-dark), -10px -10px 20px var(--shadow-light);
 }
 
 /* Style néomorphique de base */
 .neumorphic {
     background: linear-gradient(145deg, var(--background-light), var(--background-dark));
     border-radius: 15px;
-    box-shadow: 8px 8px 16px var(--shadow-dark),
-                -8px -8px 16px var(--shadow-light);
-    transition: all 0.3s ease;
+    box-shadow: var(--neumorphic-shadow);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    will-change: transform, box-shadow;
 }
 
 .neumorphic:hover {
     transform: translateY(-2px);
-    box-shadow: 10px 10px 20px var(--shadow-dark),
-                -10px -10px 20px var(--shadow-light);
+    box-shadow: var(--neumorphic-hover-shadow);
 }
 
 /* Tableau de bord */
 .o_kanban_record {
     background: linear-gradient(145deg, var(--background-light), var(--background-dark));
     border-radius: 15px;
-    box-shadow: 8px 8px 16px var(--shadow-dark),
-                -8px -8px 16px var(--shadow-light);
+    box-shadow: var(--neumorphic-shadow);
     margin-bottom: 20px;
     padding: 20px;
-    transition: all 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    will-change: transform, box-shadow;
 }
 
 .o_kanban_record:hover {
     transform: translateY(-2px);
-    box-shadow: 10px 10px 20px var(--shadow-dark),
-                -10px -10px 20px var(--shadow-light);
+    box-shadow: var(--neumorphic-hover-shadow);
+}
+
+/* Optimisations pour Odoo 17 */
+@layer odoo {
+    .neumorphic {
+        --o-border-radius: 15px;
+        --o-box-shadow: var(--neumorphic-shadow);
+        --o-box-shadow-hover: var(--neumorphic-hover-shadow);
+    }
+
+    .o_kanban_record {
+        --o-border-radius: 15px;
+        --o-box-shadow: var(--neumorphic-shadow);
+        --o-box-shadow-hover: var(--neumorphic-hover-shadow);
+    }
 }
 
 /* Graphiques */
 .o_graph {
     background: linear-gradient(145deg, var(--background-light), var(--background-dark));
-    border-radius: 15px;
-    box-shadow: 8px 8px 16px var(--shadow-dark),
-                -8px -8px 16px var(--shadow-light);
+    border-radius: var(--o-border-radius);
+    box-shadow: var(--neumorphic-shadow);
     padding: 20px;
     margin-bottom: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    will-change: transform, box-shadow;
+}
+
+.o_graph:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--neumorphic-hover-shadow);
 }
 
 /* Alertes */

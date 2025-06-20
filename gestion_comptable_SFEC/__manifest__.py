@@ -26,13 +26,11 @@ Module Odoo personnalisé pour gérer :
         'account',
         'contacts',
         'mail',
-        'base_automation',
+        'base.automation',
         'report_xlsx',
         'web_tour',
-        'web_responsive',
-        'web_widget_colorpicker',
         'base_import',
-        'web_export_view'
+        'custom_design',
     ],
     'assets': {
         'web.assets_backend': [
@@ -44,11 +42,13 @@ Module Odoo personnalisé pour gérer :
             'gestion_comptable_sfec/static/src/js/form_interactions.js',
             'gestion_comptable_sfec/static/src/js/drag_drop_widget.js',
             'gestion_comptable_sfec/static/src/js/advanced_filters.js',
-            'gestion_comptable_sfec/static/src/js/custom_tags_widget.js'
+            'gestion_comptable_sfec/static/src/js/custom_tags_widget.js',
+            'web.assets_backend',
         ],
         'web.assets_qweb': [
             'gestion_comptable_sfec/static/src/xml/drag_drop_template.xml',
-            'gestion_comptable_sfec/static/src/xml/custom_tags_template.xml'
+            'gestion_comptable_sfec/static/src/xml/custom_tags_template.xml',
+            'web.assets_qweb',
         ]
     },
     'data': [
@@ -138,7 +138,10 @@ Module Odoo personnalisé pour gérer :
         'views/statistique_paiement_view.xml',
 
         # Menus
-        'views/menu.xml'
+        'views/menu.xml',
+
+        # Tours
+        'tours/accounting_tour.py',
     ],
     'demo': [
         'data/demo.xml'
