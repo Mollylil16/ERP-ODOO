@@ -21,8 +21,8 @@
     ],
     'assets': {
         'web.assets_backend': [
-            'custom_design/static/src/css/custom_design.css',
             'custom_design/static/src/js/color_picker_widget.js',
+            'custom_design/static/src/xml/color_picker.xml',
             'custom_design/static/src/js/custom_tags_widget.js',
             'custom_design/static/src/js/responsive_utilities.js',
             'web.assets_backend',

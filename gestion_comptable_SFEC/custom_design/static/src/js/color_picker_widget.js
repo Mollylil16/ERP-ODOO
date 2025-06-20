@@ -1,40 +1,23 @@
-odoo.define('custom_design.ColorPickerWidget', function (require) {
+odoo.define('custom_design.ColorPicker', function (require) {
     "use strict";
 
-    const AbstractField = require('web.AbstractField');
-    const fieldRegistry = require('web.field_registry');
-    const core = require('web.core');
-    const _t = core._t;
+    const { Component } = owl;
+    const { useRef } = owl.hooks;
 
-    class ColorPickerWidget extends AbstractField {
-        constructor() {
-            super(...arguments);
-            this.template = 'ColorPickerWidget';
-        }
-
-        static template = 'ColorPickerWidget';
-
+    class ColorPicker extends Component {
         setup() {
-            super.setup();
-            this.events = {
-                ...AbstractField.prototype.events,
-                'change input': this._onColorChange,
-            };
-        }
-
-        async _render() {
-            await super._render();
-            if (this.value) {
-                this.el.querySelector('input[type="color"]').value = this.value;
-            }
+            this.inputRef = useRef("color-input");
+            this.state = { color: this.props.value || '#FFFFFF' };
         }
 
         _onColorChange(ev) {
-            const color = ev.currentTarget.value;
-            this._setValue(color);
+            this.state.color = ev.target.value;
+            this.trigger('color-changed', this.state.color);
         }
     }
 
-    fieldRegistry.add('color_picker', ColorPickerWidget);
-    return ColorPickerWidget;
+    ColorPicker.template = 'custom_design.ColorPicker';
+    ColorPicker.props = { value: { type: String, optional: true } };
+
+    return ColorPicker;
 });

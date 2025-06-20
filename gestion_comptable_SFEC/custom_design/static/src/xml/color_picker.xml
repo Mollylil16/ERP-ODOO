@@ -1,0 +1,10 @@
+<templates>
+    <t t-name="custom_design.ColorPicker">
+        <div class="o_custom_color_picker">
+            <input type="color" 
+                   t-ref="color-input"
+                   t-att-value="state.color"
+                   t-on-change="_onColorChange"/>
+        </div>
+    </t>
+</templates>
